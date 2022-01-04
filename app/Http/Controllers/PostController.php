@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -13,7 +16,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::all();
+        return view('post.index', compact('posts'));
+
     }
 
     /**
@@ -23,7 +28,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('post.create', compact('categories'));
     }
 
     /**
@@ -34,7 +40,31 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'title' => 'required',
+            'category_id' => 'required',
+            'image' => 'required|mimes:png,jpg,jpeg|max:2000',
+            'description' => 'required',
+        ]);
+
+        if($request->hasfile('image'))
+        {
+            $file = $request->file('image');
+            $extention = $file->getClientOriginalExtension();
+            $filename = time().'.'.$extention;
+            $file->move('assets/img/image', $filename);
+            $image = $filename;
+        }
+
+        Post::create([
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'category_id' => $request->category_id,
+            'image' => $image,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('post.index')->with('success', 'Data Posts Berhasil Di Buat');
     }
 
     /**
@@ -56,7 +86,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post= Post::findOrFail($id);
+        $categories = Category::all();
+        return view('post.edit', compact('post', 'categories'));
     }
 
     /**
@@ -68,7 +100,32 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'category_id' => 'required',
+            'image' => 'required|image|mimes:png,jpg,jpeg|max:2000',
+            'description' => 'required',
+        ]);
+
+        $post = Post::findOrFail($id);
+        if($request->hasfile('image'))
+        {
+            $file = $request->file('image');
+            $extention = $file->getClientOriginalExtension();
+            $filename = time().'.'.$extention;
+            $file->move('assets/img/image', $filename);
+            $image = $filename;
+        }
+
+        $post->update([
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'category_id' => $request->category_id,
+            'image' => $image,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('post.index')->with('success', 'Data Posts Berhasil Di Update');
     }
 
     /**
@@ -79,6 +136,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->delete();
+        return redirect()->route('post.index')->with('success', 'Data Posts Berhasil Di Hapus');
     }
 }
