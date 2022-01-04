@@ -18,4 +18,10 @@ class Category extends Model
     public function posts() {
         return $this->hasMany(Post::class);
     }
+
+    public function getCreatedAtAttribute()
+    {
+
+        return \Carbon\Carbon::parse($this->attributes['created_at'])->locale('id')->isoFormat('LLLL');
+    }
 }

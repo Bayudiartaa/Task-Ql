@@ -15,7 +15,7 @@
                     <h4>Posts</h4>
                 </div>
                 <div class="card-body">
-
+                    {{ $posts ?? '0' }}
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
                     <h4>Category</h4>
                 </div>
                 <div class="card-body">
-                   
+                    {{ $categories ?? '0' }}
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@
                     <h4>Users</h4>
                 </div>
                 <div class="card-body">
-
+                    {{ $user ?? '0' }}
                 </div>
             </div>
         </div>

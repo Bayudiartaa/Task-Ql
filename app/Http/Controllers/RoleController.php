@@ -10,16 +10,13 @@ class RoleController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:role-index|role-create|role-edit|role-delete', ['only' => ['index','store']]);
-        $this->middleware('permission:role-create', ['only' => ['create','store']]);
-        $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+        $this->middleware(['permission:roles.index|roles.create|roles.edit|roles.delete']);
     }
 
     public function index(Request $request)
     {
         $roles = Role::orderBy('id','DESC')->get();
-        return view('roles.index',compact('roles'));
+        return view('role.index',compact('roles'));
     }
 
     /**
@@ -29,8 +26,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permission = Permission::get();
-        return view('roles.create',compact('permission'));
+        $permissions = Permission::get();
+        return view('role.create',compact('permissions'));
     }
 
     /**
@@ -43,17 +40,16 @@ class RoleController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:roles,name',
-            'permission' => 'required',
         ]);
 
         $role = Role::create(['name' => $request->input('name')]);
-        $role->syncPermissions($request->input('permission'));
+        $role->syncPermissions($request->input('permissions'));
 
         if($role){
-            return redirect()->route('role')->with('success','Data Berhasil Disimpan');
+            return redirect()->route('role.index')->with('success','Data Berhasil Disimpan');
         }
         else{
-            return redirect()->route('role')->with('error','Data Gagal Disimpan');
+            return redirect()->route('role.index')->with('error','Data Gagal Disimpan');
         }
     }
 
@@ -66,9 +62,9 @@ class RoleController extends Controller
     public function edit($id)
     {
         $role = Role::findOrFail($id);
-        $permission = Permission::get();
+        $permissions = Permission::get();
 
-        return view('roles.edit',compact('role','permission','rolePermissions'));
+        return view('role.edit',compact('role','permissions'));
     }
 
     /**
@@ -81,21 +77,21 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'permission' => 'required',
+            'name' => 'required|unique:roles,name,'.$id,
         ]);
 
-        $role = Role::find($id);
-        $role->name = $request->input('name');
-        $role->save();
+        $role = Role::findOrFail($id);
+        $role->update([
+            'name' => $request->input('name'),
+        ]);
 
-        $role->syncPermissions($request->input('permission'));
+        $role->syncPermissions($request->input('permissions'));
 
         if($role){
-            return redirect()->route('role')->with('success','Data Berhasil Diupdate');
+            return redirect()->route('role.index')->with('success','Data Berhasil Diupdate');
         }
         else{
-            return redirect()->route('role')->with('error','Data Gagal Diupdate');
+            return redirect()->route('role.index')->with('error','Data Gagal Diupdate');
         }
     }
     /**
@@ -110,6 +106,6 @@ class RoleController extends Controller
         $permissions = $role->permissions;
         $role->revokePermissionTo($permissions);
         $role->delete();
-        return redirect()->route('roles')->with('success','Role deleted successfully');
+        return redirect()->route('role.index')->with('success','Role deleted successfully');
     }
 }

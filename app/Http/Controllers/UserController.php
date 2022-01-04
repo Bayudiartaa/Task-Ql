@@ -53,8 +53,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $roles = Role::latest()->get();
-        $userRole = $user->roles->pluck('name','name')->get();
-        return view('user.edit', compact('roles', 'user', 'userRole'));
+        return view('user.edit', compact('roles', 'user'));
     }
 
     //proses update

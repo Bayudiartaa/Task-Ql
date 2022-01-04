@@ -7,11 +7,19 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
+     //constructor
+    //untuk mengatur hanya user yg diizinkan mengakses menu permission yg bisa mengakses
+    public function __construct()
+    {
+        $this->middleware(['permission:permissions.index|permissions.create|permissions.edit|permission.delete']);
+    }
+
+
     public function index()
     {
         $permissions = Permission::all();
 
-        return view('permissions.index', [
+        return view('permission.index', [
             'permissions' => $permissions
         ]);
     }
@@ -23,7 +31,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return view('permissions.create');
+        return view('permission.create');
     }
 
     /**
@@ -40,7 +48,7 @@ class PermissionController extends Controller
 
         Permission::create($request->only('name'));
 
-        return redirect()->route('permissions')->with('success','Data Permission Berhasil Di Buat');
+        return redirect()->route('permission.index')->with('success','Data Permission Berhasil Di Buat');
     }
 
     /**
@@ -52,7 +60,7 @@ class PermissionController extends Controller
     public function edit($id)
     {
         $permission  = Permission::findOrFail($id);
-        return view('permissions.edit', [
+        return view('permission.edit', [
             'permission' => $permission
         ]);
     }
@@ -73,7 +81,7 @@ class PermissionController extends Controller
         $permission = Permission::findOrFail($id);
         $permission->update($request->only('name'));
 
-        return redirect()->route('permissions')->with('success','Data Permission Berhasil Di Update');
+        return redirect()->route('permission.index')->with('success','Data Permission Berhasil Di Update');
     }
 
     /**
@@ -87,6 +95,6 @@ class PermissionController extends Controller
         $permission = Permission::findOrFail($id);
         $permission->delete();
 
-        return redirect()->route('permissions')->with('success', 'Data Permission Berhasil Di Hapus');
+        return redirect()->route('permission.index')->with('success', 'Data Permission Berhasil Di Hapus');
     }
 }

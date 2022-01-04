@@ -6,6 +6,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PermissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,10 +25,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-// Route::middleware('auth')->group(function() {
-//     Route::resource('category', Category::class);
-//     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// });
 
 Route::group(['middleware' => ['auth']], function() {
 
@@ -39,5 +36,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('category', CategoryController::class);
 
     Route::resource('post', PostController::class);
+
+    Route::resource('permission', PermissionController::class);
+
+    Route::resource('role', RoleController::class)->except('show');
+
+    Route::resource('user', UserController::class)->except('show');
 
 });

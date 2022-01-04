@@ -1,11 +1,13 @@
 @extends('layouts.main')
-@section('title', 'Posts')
+
+@section('title', 'Permissions')
+
 @section('content')
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <a href="{{ route('post.create') }}" class="btn btn-primary">Create</a>
+                <a href="{{ route('permission.create') }}" class="btn btn-primary">Create</a>
             </div>
             <div class="card-body">
                 @if(session('success'))
@@ -16,27 +18,19 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Title</th>
-                                <th>Category</th>
-                                <th>Image</th>
-                                <th>Description</th>
+                                <th>Nama Permissions</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $no = 1 ?>
-                            @foreach($posts as $post)
+                            @foreach ($permissions as $permission)
                             <tr>
                                 <td>{{ $no++ }}</td>
-                                <td>{{ $post->title }}</td>
-                                <td>{{ $post->category->name }}</td>
-                                <td>
-                                    <img src="{{ asset('assets/img/image/'.$post->image) }}" class="img-thumbnail" alt="image" style="width: 150px">
-                                </td>
-                                <td>{{ $post->description }}</td>
+                                <td>{{ $permission->name }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('post.edit', $post->id) }}" class="btn btn-success">Edit</a>
-                                    <form action="{{ route('post.destroy', $post->id) }}" method="POST" class="d-inline">
+                                    <a href="{{ route('permission.edit', $permission->id) }}" class="btn btn-success">Edit</a>
+                                    <form action="{{ route('permission.destroy', $permission->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah anda yakin untuk menghapus data ini?')">Delete</button>
@@ -63,5 +57,14 @@
 </script>
 @endsection
 
-
+@section('script')
+<script>
+    $(document).ready(function() {
+        $("#table").DataTable({
+            "responsive": true,
+            "autoWidth": false,
+        });
+    });
+</script>
+@endsection
 

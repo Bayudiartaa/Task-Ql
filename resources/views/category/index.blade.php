@@ -18,14 +18,17 @@
                         <thead>
                             <tr>
                                 <th>Nama Category</th>
-                                <th style="text-align: right">Action</th>
+                                <th>Created At</th>
+                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($categories as $category)
                             <tr>
                                 <td>{{ $category->name }}</td>
+                                <td>{{ $category->created_at }}</td>
                                 <td class="text-center">
+                                    {{-- <a href="{{ route('post.edit', $post->id) }}" class="btn btn-success">Edit</a> --}}
                                     <a href="{{ route('category.edit', $category->id) }}" class="btn btn-success">Edit</a>
                                     <form action="{{ route('category.destroy', $category->id) }}" method="POST" class="d-inline">
                                         @csrf
