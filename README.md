@@ -38,7 +38,7 @@ $ npm install
 ```
 
 ## Screenshot
-![Alt text](public/assets/uploads/-img.png?raw=true "Title")
+![Alt text](public/assets/img/ss.png?raw=true "Title")
 
 ## Fitur On Going
 
