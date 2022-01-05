@@ -9,7 +9,7 @@
             <div class="card-header">
                 @can('roles.create')
                 <a href="{{ route('role.create') }}" class="btn btn-primary">Create</a>
-                @can('roles.create')
+                @endcan
             </div>
             <div class="card-body">
                 @if(session('success'))

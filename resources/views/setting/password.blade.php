@@ -20,7 +20,7 @@
                     @method('PUT')
                     <div class="form-group">
                         <label>Old Password</label>
-                        <input type="password"  name="currentPassword" class="form-control @error('currentPassword') is-invalid @enderror" required="">
+                        <input type="password"  name="currentPassword" class="form-control @error('currentPassword') is-invalid @enderror" required=""/>
                         @error('currentPassword')
                         <div class="invalid-feedback">
                             {{ $message }}
