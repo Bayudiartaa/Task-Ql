@@ -35,11 +35,12 @@
                 </form>
                 <ul class="navbar-nav navbar-right">
                     <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                        <img alt="image" src="{!! asset('assets/img/avatar/avatar-1.png') !!}" class="rounded-circle mr-1">
+                        {{-- <img src="{{ asset('assets/img/image/'.$post->image) }}" class="img-thumbnail" alt="image" style="width: 150px"> --}}
+                        <img alt="image" src="{!! asset('/storage/images/'.Auth::user()->image) !!}" class="rounded-circle mr-1">
                         <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->name }}</div></a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <div class="dropdown-title"></div>
-                            <a href="#" class="dropdown-item has-icon">
+                            <a href="{{ route('user-profile',Auth::user()->id) }}" class="dropdown-item has-icon">
                                 <i class="fas fa-cog"></i> Settings
                             </a>
                             <div class="dropdown-divider"></div>
@@ -73,61 +74,74 @@
                         </a>
                     </li>
                     @can('posts.index')
-                        <li class="{{ setActive('post') }}">
-                            <a href="{{ route('post.index') }}" class="nav-link">
-                                <i class="fas fa-book-open"></i>
-                                <span>Posts</span>
-                            </a>
-                        </li>
+                    <li class="{{ setActive('post') }}">
+                        <a href="{{ route('post.index') }}" class="nav-link">
+                            <i class="fas fa-book-open"></i>
+                            <span>Posts</span>
+                        </a>
+                    </li>
                     @endcan
 
                     @can('categories.index')
-                        <li class="{{ setActive('category') }}">
-                            <a href="{{ route('category.index') }}" class="nav-link">
-                                <i class="fas fa-tag"></i>
-                                <span>Kategori</span>
-                            </a>
-                        </li>
+                    <li class="{{ setActive('category') }}">
+                        <a href="{{ route('category.index') }}" class="nav-link">
+                            <i class="fas fa-tag"></i>
+                            <span>Kategori</span>
+                        </a>
+                    </li>
                     @endcan
 
                     <li
-                        class="dropdown {{ setActive('role') . setActive('permission') . setActive('user') }}">
-                        @if (auth()->user()->can('roles.index') ||
-            auth()->user()->can('permission.index') ||
-            auth()->user()->can('users.index'))
-                            <a href="#" class="nav-link has-dropdown">
-                                <i class="fas fa-users"></i>
-                                <span>Users Management</span>
+                    class="dropdown {{ setActive('role') . setActive('permission') . setActive('user') }}">
+                    @if (auth()->user()->can('roles.index') ||
+                    auth()->user()->can('permission.index') ||
+                    auth()->user()->can('users.index'))
+                    <a href="#" class="nav-link has-dropdown">
+                        <i class="fas fa-users"></i>
+                        <span>Users Management</span>
+                    </a>
+                    @endif
+
+                    <ul class="dropdown-menu">
+                        @can('roles.index')
+                        <li class="{{ setActive('role') }}">
+                            <a href="{{ route('role.index') }}" class="nav-link">
+                                <i class="fas fa-unlock"></i>
+                                <span>Roles</span>
                             </a>
-                        @endif
+                        </li>
+                        @endcan
 
-                        <ul class="dropdown-menu">
-                            @can('roles.index')
-                                <li class="{{ setActive('role') }}">
-                                    <a href="{{ route('role.index') }}" class="nav-link">
-                                        <i class="fas fa-unlock"></i>
-                                        <span>Roles</span>
-                                    </a>
-                                </li>
-                            @endcan
+                        @can('permissions.index')
+                        <li class="{{ setActive('permission') }}">
+                            <a href="{{ route('permission.index') }}" class="nav-link">
+                                <i class="fas fa-key"></i>
+                                <span>Permissions</span>
+                            </a>
+                        </li>
+                        @endcan
 
-                            @can('permissions.index')
-                                <li class="{{ setActive('permission') }}">
-                                    <a href="{{ route('permission.index') }}" class="nav-link">
-                                        <i class="fas fa-key"></i>
-                                        <span>Permissions</span>
-                                    </a>
-                                </li>
-                            @endcan
-
-                            @can('users.index')
-                                <li class="{{ setActive('user') }}">
-                                    <a href="{{ route('user.index') }}" class="nav-link">
-                                        <i class="fas fa-users"></i>
-                                        <span>Users</span>
-                                    </a>
-                                </li>
-                            @endcan
+                        @can('users.index')
+                        <li class="{{ setActive('user') }}">
+                            <a href="{{ route('user.index') }}" class="nav-link">
+                                <i class="fas fa-users"></i>
+                                <span>Users</span>
+                            </a>
+                        </li>
+                        @endcan
+                    </ul>
+                </li>
+                <li class="menu-header">Pengaturan</li>
+                <li class="dropdown {{ setActive('settings') }}">
+                    <a href="#" class="nav-link has-dropdown">
+                        <i class="far fa-user"></i><span>Profil Pengguna</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="{{ setActive('change-profile') }}">
+                            <a href="{{ route('user-profile', auth()->user()->id) }}">Ubah Profil</a></li>
+                            <li class="{{ setActive('change-password') }}">
+                                <a href="{{ route('user-password', auth()->user()->id) }}">Ganti Password</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
