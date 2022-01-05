@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:posts.index|posts.create|posts.edit|posts.delete']);
+    }
     /**
      * Display a listing of the resource.
      *

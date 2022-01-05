@@ -17,7 +17,7 @@
                     </div>
                     <div class="form-group">
                         <label for="category">Category</label>
-                        <select id="category" class="form-control @error('category_id') is-invalid @enderror" name="category_id">
+                        <select id="category" class="form-control select2 @error('category_id') is-invalid @enderror" name="category_id">
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}" @if($category->id == $post->category_id) selected @endif>{{ $category->name }}</option>
                             @endforeach
@@ -46,4 +46,9 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script>
+    $('.select2').select2()
+</script>
 @endsection

@@ -5,7 +5,9 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
+                @can('posts.create')
                 <a href="{{ route('post.create') }}" class="btn btn-primary">Create</a>
+                @endcan
             </div>
             <div class="card-body">
                 @if(session('success'))
@@ -35,12 +37,16 @@
                                 </td>
                                 <td>{{ $post->description }}</td>
                                 <td class="text-center">
+                                    @can('posts.edit')
                                     <a href="{{ route('post.edit', $post->id) }}" class="btn btn-success">Edit</a>
+                                    @endcan
+                                    @can('posts.delete')
                                     <form action="{{ route('post.destroy', $post->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah anda yakin untuk menghapus data ini?')">Delete</button>
                                     </form>
+                                    @endcan
                                 </td>
                             </tr>
                             @endforeach

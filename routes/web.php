@@ -6,6 +6,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PermissionController;
 
 /*
@@ -19,28 +20,29 @@ use App\Http\Controllers\PermissionController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Auth::routes();
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/', [LoginController::class, 'showLoginForm']);
+// Auth::routes();
 
 
 Route::group(['middleware' => ['auth']], function() {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('roles', RoleController::class);
+    // Route::resource('roles', RoleController::class)->except('show');
 
-    Route::resource('users', UserController::class);
+    Route::resource('users', UserController::class)->except('show');
 
-    Route::resource('category', CategoryController::class);
+    Route::resource('category', CategoryController::class)->except('show');
 
-    Route::resource('post', PostController::class);
+    Route::resource('post', PostController::class)->except('show');
 
-    Route::resource('permission', PermissionController::class);
+    Route::resource('permission', PermissionController::class) ->except('show', 'create', 'edit', 'update', 'delete');
 
     Route::resource('role', RoleController::class)->except('show');
 
     Route::resource('user', UserController::class)->except('show');
 
 });
+Auth::routes(['register' => false]);

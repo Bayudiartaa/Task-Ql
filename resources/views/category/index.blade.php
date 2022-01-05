@@ -6,7 +6,9 @@
         <div class="card">
             <div class="card-header">
                 <div class="form-group">
+                    @can('categories.create')
                     <a href="{{ route('category.create') }}" class="btn btn-primary">Create</a>
+                    @endcan
                 </div>
             </div>
             <div class="card-body">
@@ -28,13 +30,16 @@
                                 <td>{{ $category->name }}</td>
                                 <td>{{ $category->created_at }}</td>
                                 <td class="text-center">
-                                    {{-- <a href="{{ route('post.edit', $post->id) }}" class="btn btn-success">Edit</a> --}}
+                                    @can('categories.edit')
                                     <a href="{{ route('category.edit', $category->id) }}" class="btn btn-success">Edit</a>
+                                    @endcan
+                                    @can('categories.delete')
                                     <form action="{{ route('category.destroy', $category->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah anda yakin untuk menghapus data ini?')">Delete</button>
                                     </form>
+                                    @endcan
                                 </td>
                             </tr>
                             @endforeach

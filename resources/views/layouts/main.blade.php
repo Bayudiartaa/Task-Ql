@@ -30,7 +30,7 @@
                     <ul class="navbar-nav mr-3">
                         <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
                         <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
-                        <div id="jam" style="background-color:white"></div>
+                        <h1 id="jam" style="background-color:black; color:white;"></h1>
                     </ul>
                 </form>
                 <ul class="navbar-nav navbar-right">
