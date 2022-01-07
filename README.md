@@ -43,7 +43,7 @@ $ npm install
 ## Fitur On Going
 
 ```
-Setting Profile users
-Change Password Users
-Switch DB Mysql To Postgresql
+Setting Profile users                                                                                                                        ```done```
+Change Password Users                                                                                                                        ```done```
+Switch DB Mysql To Postgresql                                                                                                                ```done```
 ```
