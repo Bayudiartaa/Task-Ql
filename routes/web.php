@@ -39,7 +39,7 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::resource('post', PostController::class)->except('show');
 
-    Route::resource('permission', PermissionController::class)->except('show');
+    Route::resource('permission', PermissionController::class)->except('show', 'create', 'edit', 'update', 'delete');
 
     Route::resource('role', RoleController::class)->except('show');
 
